@@ -29,14 +29,22 @@ app.delete('/remove/:id', (req,res) =>
     res.status(200).json(deadCat);
 })
 
-app.patch('/update/:id', (req,res) =>
+app.patch('/update/:id', (req,res,next) =>
 {
     const {id} = req.params;
     const {name} = req.query;
+    if(id >= cats.length){
+        return next({msg:`ERROR: out of bounds: ${id}`,status:404});
+    }
     cats[id] = name; 
     res.status(200).json(cats[id]);
 })
 
+
+app.use((err,req,res,next) =>
+{
+    res.status(err.status).send(err.msg);
+})
 
 
 
