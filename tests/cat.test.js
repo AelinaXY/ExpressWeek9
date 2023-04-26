@@ -58,7 +58,8 @@ describe("API Tests", () => {
      (done) =>  {
      chai
         .request(server)
-        .patch(`/cats/update/${createdCat._id}?name=dave&colour=dave&evil=false`)
+        .patch(`/cats/update/${createdCat._id}`)
+        .query({"name":"dave","colour":"dave","evil":false})
         .end((err, res) => {
           chai.expect(err).to.be.null;
           chai.expect(res.body.modifiedCount).to.equal(1);
